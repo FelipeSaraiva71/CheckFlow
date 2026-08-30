@@ -1,0 +1,27 @@
+# FleetCheck
+
+Sistema para controle e realização de checklists de veículos.
+
+## Objetivo
+
+Projeto desenvolvido com o objetivo de praticar e aprimorar conhecimentos em desenvolvimento de software, utilizando Java e Spring Boot.
+
+## Tecnologias
+
+- Java
+- Spring Boot
+- Spring Data JPA
+- Spring Security
+- JWT
+- Hibernate
+- Flyway
+- Maven
+- PostgreSQL
+
+## Status
+
+🚧 Em desenvolvimento
+
+## Autor
+
+Felipe Saraiva
