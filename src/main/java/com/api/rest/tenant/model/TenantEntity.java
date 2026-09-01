@@ -12,4 +12,6 @@ public class TenantEntity {
 
     private String tenantName;
 
+    private StatusTenantEnum status;
+
 }
