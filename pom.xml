@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.api</groupId>
-	<artifactId>FleetCheck</artifactId>
+	<artifactId>CheckFlow</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
