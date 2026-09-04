@@ -1,30 +1,27 @@
-package com.api.rest.usuarios.model;
+package com.api.rest.objeto_item.model;
 
-
-import com.api.rest.tenant.model.StatusTenantEnum;
+import com.api.rest.itens.model.ItemEntity;
+import com.api.rest.objeto.model.ObjetoEntity;
 import com.api.rest.tenant.model.TenantEntity;
+import com.api.rest.usuarios.model.UsuarioEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Table (name = "usuarios")
-@Entity
-public class UsuarioEntity {
+@Table(name = "objetos_Itens")
+public class ObjetoItemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
-    private String nome;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objeto_id")
+    private ObjetoEntity objeto;
 
-    private String sobrenome;
-
-    private String email;
-
-    private String senha;
-
-    private StatusTenantEnum status;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    private ItemEntity item;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "criado_por")
@@ -40,7 +37,5 @@ public class UsuarioEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id")
-    private TenantEntity  tenant;
-
-
+    private TenantEntity tenant;
 }

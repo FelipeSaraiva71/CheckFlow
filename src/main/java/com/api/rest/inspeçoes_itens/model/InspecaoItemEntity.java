@@ -1,30 +1,19 @@
-package com.api.rest.usuarios.model;
+package com.api.rest.inspeçoes_itens.model;
 
-
-import com.api.rest.tenant.model.StatusTenantEnum;
 import com.api.rest.tenant.model.TenantEntity;
-import jakarta.persistence.*;
+import com.api.rest.usuarios.model.UsuarioEntity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
-@Table (name = "usuarios")
-@Entity
-public class UsuarioEntity {
+@Table(name = "inspecoes_itens")
+public class InspecaoItemEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long id;
 
-    private String nome;
-
-    private String sobrenome;
-
-    private String email;
-
-    private String senha;
-
-    private StatusTenantEnum status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "criado_por")
@@ -40,7 +29,5 @@ public class UsuarioEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tenant_id")
-    private TenantEntity  tenant;
-
-
+    private TenantEntity tenant;
 }
