@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Table(name = "objetos_Itens")
+@Entity
 public class ObjetoItemEntity {
 
     @Id

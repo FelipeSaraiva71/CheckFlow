@@ -1,6 +1,6 @@
 package com.api.rest.usuarios.model;
 
-public enum UsuarioEnum {
+public enum UsuarioTipoEnum {
     DEV,
     ADM,
     PRESTADOR

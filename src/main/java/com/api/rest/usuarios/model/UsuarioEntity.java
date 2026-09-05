@@ -1,7 +1,6 @@
 package com.api.rest.usuarios.model;
 
 
-import com.api.rest.tenant.model.StatusTenantEnum;
 import com.api.rest.tenant.model.TenantEntity;
 import jakarta.persistence.*;
 
@@ -24,7 +23,11 @@ public class UsuarioEntity {
 
     private String senha;
 
-    private StatusTenantEnum status;
+    @Enumerated(EnumType.STRING)
+    private StatusUsuarioEnum status;
+
+    @Enumerated(EnumType.STRING)
+    private UsuarioTipoEnum tipo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "criado_por")
