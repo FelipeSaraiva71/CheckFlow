@@ -1,6 +1,7 @@
 package com.api.rest.inspecao.model;
 
 
+import com.api.rest.itens.model.ItemEntity;
 import com.api.rest.objeto.model.ObjetoEntity;
 import com.api.rest.tenant.model.TenantEntity;
 import com.api.rest.usuarios.model.UsuarioEntity;
