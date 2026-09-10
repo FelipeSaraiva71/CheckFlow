@@ -23,12 +23,14 @@ public class ObjetoEntity {
     @JoinColumn(name = "criado_por")
     private UsuarioEntity criadoPor;
 
+    @Column(name = "criado_em")
     private LocalDateTime criadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "atualizado_por")
     private UsuarioEntity atualizadoPor;
 
+    @Column(name = "atualizado_em")
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -7,7 +7,7 @@ CREATE TABLE usuarios
 
     sobrenome VARCHAR(100) NOT NULL,
 
-    telefone  VARCHAR(20),
+    telefone  VARCHAR(20) NOT NULL,
 
     email     VARCHAR(150) NOT NULL UNIQUE,
 
@@ -17,14 +17,14 @@ CREATE TABLE usuarios
 
     tipo      VARCHAR(20)  NOT NULL,
 
-    tenant_id   BIGINT,
+    criado_por BIGINT NOT NULL,
 
-    criado_Por BIGINT ,
+    criado_em TIMESTAMP NOT NULL,
 
-    criado_Em TIMESTAMP NOT NULL,
+    atualizado_por BIGINT,
 
-    atualizado_Por BIGINT,
+    atualizado_em TIMESTAMP,
 
-    atualizado_Em TIMESTAMP
+    tenant_id   BIGINT
 
-);
+)

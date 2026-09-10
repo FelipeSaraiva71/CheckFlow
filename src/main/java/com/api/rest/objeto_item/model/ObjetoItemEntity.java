@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Table(name = "objetos_Itens")
+@Table(name = "objetos_itens")
 @Entity
 public class ObjetoItemEntity {
 
@@ -28,12 +28,14 @@ public class ObjetoItemEntity {
     @JoinColumn(name = "criado_por")
     private UsuarioEntity criadoPor;
 
+    @Column(name = "criado_em")
     private LocalDateTime criadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "atualizado_por")
     private UsuarioEntity atualizadoPor;
 
+    @Column(name = "atualizado_em")
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
