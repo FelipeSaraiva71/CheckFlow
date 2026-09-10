@@ -1,0 +1,11 @@
+CREATE TABLE tenant
+(
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+
+    nome VARCHAR(200) NOT NULL ,
+
+    status VARCHAR (10) NOT NULL
+
+)
+
+
