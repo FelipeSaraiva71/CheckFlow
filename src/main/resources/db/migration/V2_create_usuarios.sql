@@ -17,9 +17,9 @@ CREATE TABLE usuarios
 
     tipo           VARCHAR(20)  NOT NULL,
 
-    criado_por     BIGINT       NOT NULL,
+    criado_por     BIGINT,
 
-    criado_em      TIMESTAMP    NOT NULL,
+    criado_em      TIMESTAMP,
 
     atualizado_por BIGINT,
 

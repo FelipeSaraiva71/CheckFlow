@@ -8,7 +8,7 @@ CREATE TABLE objetos
 
     descricao      VARCHAR(100) NOT NULL,
 
-    criado_por     BIGINT,
+    criado_por     BIGINT NOT NULL ,
 
     criado_em      TIMESTAMP    NOT NULL,
 

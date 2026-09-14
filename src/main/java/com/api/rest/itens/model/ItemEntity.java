@@ -13,14 +13,14 @@ public class ItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String nome;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "criado_por")
+    @JoinColumn(nullable = false, name = "criado_por")
     private UsuarioEntity criadoPor;
 
-    @Column (name = "criado_em")
+    @Column (nullable = false, name = "criado_em")
     private LocalDateTime criadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,7 +31,7 @@ public class ItemEntity {
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_id")
+    @JoinColumn(nullable = false, name = "tenant_id")
     private TenantEntity tenant;
 
 }
