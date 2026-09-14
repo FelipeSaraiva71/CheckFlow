@@ -17,14 +17,14 @@ public class InspecaoEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "objeto_id")
+    @JoinColumn (nullable = false, name = "objeto_id")
     private ObjetoEntity objeto;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "criado_por")
+    @JoinColumn(nullable = false, name = "criado_por")
     private UsuarioEntity criadoPor;
 
-    @Column(name = "criado_em")
+    @Column(nullable = false, name = "criado_em")
     private LocalDateTime criadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,7 +35,7 @@ public class InspecaoEntity {
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_id")
+    @JoinColumn(nullable = false, name = "tenant_id")
     private TenantEntity tenant;
 
 }
