@@ -15,15 +15,20 @@ public class ObjetoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false , length = 100)
     private String tipo;
+
+    @Column(nullable = false , length = 100)
     private String identificacao;
+
+    @Column(nullable = false , length = 100)
     private String descricao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "criado_por")
     private UsuarioEntity criadoPor;
 
-    @Column(name = "criado_em")
+    @Column(nullable = false, name = "criado_em")
     private LocalDateTime criadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +39,7 @@ public class ObjetoEntity {
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_id")
+    @JoinColumn(nullable = false, name = "tenant_id")
     private TenantEntity tenant;
 
 }
