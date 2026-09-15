@@ -25,17 +25,17 @@ CREATE TABLE usuarios
 
     atualizado_em  TIMESTAMP,
 
-    tenant_id      BIGINT       NOT NULL,
+    tenant_id      BIGINT ,
 
-    CONSTRAINT fk_criado_por
+    CONSTRAINT fk_usuario_criado_por
         FOREIGN KEY (criado_por)
             REFERENCES usuarios (id),
 
-    CONSTRAINT fk_atualizado_por
+    CONSTRAINT fk_usuario_atualizado_por
         FOREIGN KEY (atualizado_por)
             REFERENCES usuarios (id),
 
-    CONSTRAINT fk_tenant
+    CONSTRAINT fk_usuario_tenant
         FOREIGN KEY (tenant_id)
             REFERENCES tenant (id)
 

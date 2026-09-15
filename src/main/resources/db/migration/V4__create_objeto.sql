@@ -18,15 +18,15 @@ CREATE TABLE objetos
 
     tenant_id      BIGINT       NOT NULL,
 
-    CONSTRAINT fk_criado_por
+    CONSTRAINT fk_objeto_criado_por
         FOREIGN KEY (criado_por)
             REFERENCES usuarios (id),
 
-    CONSTRAINT fk_atualizado_por
-        FOREIGN KEY (atualizado por)
+    CONSTRAINT fk_objeto_atualizado_por
+        FOREIGN KEY (atualizado_por)
             REFERENCES usuarios (id),
 
-    CONSTRAINT fk_tenant
+    CONSTRAINT fk_objeto_tenant
         FOREIGN KEY (tenant_id)
             REFERENCES tenant (id)
 

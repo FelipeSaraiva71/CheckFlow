@@ -17,23 +17,25 @@ public class InspecaoItemEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "inspecao_id")
+    @JoinColumn(nullable = false, name = "inspecao_id")
     private InspecaoEntity inspecao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(nullable = false, name = "item_id")
     private ItemEntity item;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
     private StatusItemEnum status;
 
+    @Column( length = 200)
     private String observacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "criado_por")
+    @JoinColumn(nullable = false, name = "criado_por")
     private UsuarioEntity criadoPor;
 
-    @Column(name = "criado_em")
+    @Column(nullable = false, name = "criado_em")
     private LocalDateTime criadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,6 +46,6 @@ public class InspecaoItemEntity {
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_id")
+    @JoinColumn(nullable = false, name = "tenant_id")
     private TenantEntity tenant;
 }

@@ -15,19 +15,19 @@ CREATE TABLE inspecoes
 
     tenant_id      BIGINT    NOT NULL,
 
-    CONSTRAINT fk_objeto
+    CONSTRAINT fk_inspecao_objeto
         FOREIGN KEY (objeto_id)
-            REFERENCES objeto (id),
+            REFERENCES objetos (id),
 
-    CONSTRAINT fk_criado_por
+    CONSTRAINT fk_inspecao_criado_por
         FOREIGN KEY (criado_por)
-            REFERENCES usuario (id),
+            REFERENCES usuarios (id),
 
-    CONSTRAINT fk_atualizado_em
+    CONSTRAINT fk_inspecao_atualizado_em
         FOREIGN KEY (atualizado_por)
-            REFERENCES usuario (id),
+            REFERENCES usuarios (id),
 
-    CONSTRAINT fk_tenant
+    CONSTRAINT fk_inspecao_tenant
         FOREIGN KEY (tenant_id)
             REFERENCES tenant (id)
 )

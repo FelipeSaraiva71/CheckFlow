@@ -17,6 +17,7 @@ public class TenantEntity {
     private String nome;
 
     @Column(nullable = false, length = 10)
+    @Enumerated(EnumType.STRING)
     private StatusTenantEnum status;
 
 }
