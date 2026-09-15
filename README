@@ -1,27 +1,38 @@
-# FleetCheck
+# CheckFlow
 
-Sistema para controle e realização de checklists de veículos.
+Sistema para controle e realização de inspeções de diferentes tipos de objetos e equipamentos.
 
 ## Objetivo
 
 Projeto desenvolvido com o objetivo de praticar e aprimorar conhecimentos em desenvolvimento de software, utilizando Java e Spring Boot.
 
-## Tecnologias
+O sistema foi projetado para permitir a criação de objetos inspecionáveis, seus respectivos itens de inspeção e o registro dos resultados das inspeções.
 
-- Java
-- Spring Boot
-- Spring Data JPA
-- Spring Security
-- JWT
-- Hibernate
-- Flyway
-- Maven
-- PostgreSQL
+## Funcionalidades
 
-## Status
+- Cadastro e gerenciamento de usuários
+- Controle de empresas através de estrutura multi-tenant
+- Cadastro de objetos inspecionáveis
+- Cadastro de itens de inspeção
+- Associação entre objetos e itens
+- Realização de inspeções
+- Registro do resultado de cada item inspecionado
+- Controle de auditoria de criação e atualização
+- Autenticação e autorização utilizando JWT
 
-🚧 Em desenvolvimento
+## Arquitetura
 
-## Autor
+```text
+CheckFlow
 
-Felipe Saraiva
+UsuarioService ───── Usuario
+TenantService  ───── Tenant
+
+ObjetoService
+   ├── Objeto
+   ├── Item
+   └── ObjetoItem
+
+InspecaoService
+   ├── Inspecao
+   └── InspecaoItem
