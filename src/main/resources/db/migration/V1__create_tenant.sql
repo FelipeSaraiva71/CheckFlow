@@ -1,10 +1,16 @@
-CREATE TABLE tenant
+CREATE TABLE tenants
 (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id       BIGINT AUTO_INCREMENT PRIMARY KEY,
 
-    nome VARCHAR(200) NOT NULL ,
+    nome     VARCHAR(200) UNIQUE NOT NULL,
 
-    status VARCHAR (10) NOT NULL
+    email    VARCHAR(150),
+
+    telefone VARCHAR(11),
+
+    endereco VARCHAR(300),
+
+    status   VARCHAR(10)  NOT NULL
 
 )
 

@@ -37,6 +37,6 @@ CREATE TABLE usuarios
 
     CONSTRAINT fk_usuario_tenant
         FOREIGN KEY (tenant_id)
-            REFERENCES tenant (id)
+            REFERENCES tenants (id)
 
 )

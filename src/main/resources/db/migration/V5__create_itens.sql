@@ -25,6 +25,6 @@ CREATE TABLE itens
 
     CONSTRAINT fk_item_tenant
         FOREIGN KEY (tenant_id)
-            REFERENCES tenant (id)
+            REFERENCES tenants (id)
 
 )

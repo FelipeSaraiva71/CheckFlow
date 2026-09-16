@@ -29,5 +29,5 @@ CREATE TABLE inspecoes
 
     CONSTRAINT fk_inspecao_tenant
         FOREIGN KEY (tenant_id)
-            REFERENCES tenant (id)
+            REFERENCES tenants (id)
 )

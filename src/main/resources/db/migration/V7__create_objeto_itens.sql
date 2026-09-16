@@ -35,7 +35,7 @@ CREATE TABLE objetos_itens
 
     CONSTRAINT fk_tenant
         FOREIGN KEY (tenant_id)
-            REFERENCES tenant (id)
+            REFERENCES tenants (id)
 
 
 )

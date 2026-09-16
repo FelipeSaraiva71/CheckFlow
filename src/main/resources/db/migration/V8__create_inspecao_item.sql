@@ -40,6 +40,6 @@ CREATE TABLE inspecoes_itens
 
     CONSTRAINT fk_inspecao_item_tenant
         FOREIGN KEY (tenant_id)
-            REFERENCES tenant (id)
+            REFERENCES tenants (id)
 
 )
