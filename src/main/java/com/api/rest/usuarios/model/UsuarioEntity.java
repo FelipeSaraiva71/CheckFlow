@@ -3,24 +3,30 @@ package com.api.rest.usuarios.model;
 
 import com.api.rest.tenant.model.TenantEntity;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Table(name = "usuarios")
 @Entity
+
+@Getter
+@Setter
+@NoArgsConstructor
+
 public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 20)
     private String nome;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 50)
     private String sobrenome;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 11)
     private String telefone;
 
     @Column(nullable = false, length = 150, unique = true)

@@ -3,11 +3,11 @@ CREATE TABLE usuarios
 
     id             BIGINT AUTO_INCREMENT PRIMARY KEY,
 
-    nome           VARCHAR(100) NOT NULL,
+    nome           VARCHAR(20) NOT NULL,
 
-    sobrenome      VARCHAR(100) NOT NULL,
+    sobrenome      VARCHAR(50) NOT NULL,
 
-    telefone       VARCHAR(20)  NOT NULL,
+    telefone       VARCHAR(11)  NOT NULL,
 
     email          VARCHAR(150) NOT NULL UNIQUE,
 

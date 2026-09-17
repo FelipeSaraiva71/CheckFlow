@@ -2,15 +2,13 @@ package com.api.rest.tenant.dto;
 
 
 import com.api.rest.tenant.model.StatusTenantEnum;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
-@Setter
 @AllArgsConstructor
-@NoArgsConstructor
-
 @Builder
-
 public class TenantDtoRead {
 
     private Long id;
