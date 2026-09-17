@@ -1,7 +1,6 @@
 package com.api.rest.usuarios.dto;
 
 
-import com.api.rest.tenant.model.TenantEntity;
 import com.api.rest.usuarios.model.StatusUsuarioEnum;
 import com.api.rest.usuarios.model.UsuarioTipoEnum;
 import lombok.AllArgsConstructor;

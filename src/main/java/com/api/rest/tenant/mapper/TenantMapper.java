@@ -1,4 +1,4 @@
-package com.api.rest.tenant;
+package com.api.rest.tenant.mapper;
 import com.api.rest.tenant.dto.TenantDtoCreate;
 import com.api.rest.tenant.dto.TenantDtoRead;
 import com.api.rest.tenant.dto.TenantDtoUpdate;
@@ -8,11 +8,11 @@ import org.mapstruct.Mapper;
 @Mapper (componentModel = "spring")
 public interface TenantMapper {
 
-    TenantEntity createEntity (TenantDtoCreate tenantDtoCreate);
+    TenantEntity createTenantEntity (TenantDtoCreate tenantDtoCreate);
 
-    TenantEntity updateEntity  (TenantDtoUpdate tenantDtoUpdate);
+    TenantEntity updateTenantEntity  (TenantDtoUpdate tenantDtoUpdate);
 
-    TenantDtoRead readDto (TenantEntity tenantEntity);
+    TenantDtoRead readTenantDto (TenantEntity tenantEntity);
 
 
 
