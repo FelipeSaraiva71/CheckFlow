@@ -30,6 +30,4 @@ public class TenantDtoUpdate {
     @Size(max = 300)
     private String endereco;
 
-    private StatusTenantEnum status;
-
 }
