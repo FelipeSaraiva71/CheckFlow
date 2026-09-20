@@ -1,35 +1,36 @@
-package com.api.rest.inspeçoes_itens.model;
+package com.api.rest.objetoitem.model;
 
-import com.api.rest.inspecao.model.InspecaoEntity;
 import com.api.rest.itens.model.ItemEntity;
+import com.api.rest.objeto.model.ObjetoEntity;
 import com.api.rest.tenant.model.TenantEntity;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Table(name = "inspecoes_itens")
+@Table(name = "objetos_itens")
 @Entity
-public class InspecaoItemEntity {
+
+@Getter
+@Setter
+
+@NoArgsConstructor
+public class ObjetoItemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "inspecao_id")
-    private InspecaoEntity inspecao;
+    @JoinColumn(nullable = false, name = "objeto_id")
+    private ObjetoEntity objeto;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "item_id")
     private ItemEntity item;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
-    private StatusItemEnum status;
-
-    @Column( length = 200)
-    private String observacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "criado_por")

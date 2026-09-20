@@ -1,4 +1,4 @@
-package com.api.rest.inspeçoes_itens.model;
+package com.api.rest.inspeçoesitens.model;
 
 public enum StatusItemEnum {
 

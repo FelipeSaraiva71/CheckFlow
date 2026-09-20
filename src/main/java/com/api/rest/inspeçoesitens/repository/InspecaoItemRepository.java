@@ -1,6 +1,6 @@
-package com.api.rest.inspeçoes_itens.repository;
+package com.api.rest.inspeçoesitens.repository;
 
-import com.api.rest.inspeçoes_itens.model.InspecaoItemEntity;
+import com.api.rest.inspeçoesitens.model.InspecaoItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InspecaoItemRepository extends JpaRepository<InspecaoItemEntity, Long> {
