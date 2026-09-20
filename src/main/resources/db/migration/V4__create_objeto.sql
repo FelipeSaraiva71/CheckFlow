@@ -2,9 +2,9 @@ CREATE TABLE objetos
 (
     id             BIGINT AUTO_INCREMENT PRIMARY KEY,
 
-    tipo           VARCHAR(100) NOT NULL,
+    nome          VARCHAR(100) NOT NULL,
 
-    identificacao  VARCHAR(100) NOT NULL,
+    identificacao  VARCHAR(100) UNIQUE NOT NULL,
 
     descricao      VARCHAR(100) NOT NULL,
 

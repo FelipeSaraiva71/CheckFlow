@@ -26,6 +26,4 @@ public class UsuarioDtoRead {
 
     private UsuarioTipoEnum tipo;
 
-    private String tenant;
-
 }

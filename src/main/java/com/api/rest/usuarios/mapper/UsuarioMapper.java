@@ -7,12 +7,12 @@ import com.api.rest.usuarios.dto.UsuarioDtoUpdate;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import org.mapstruct.Mapper;
 
-@Mapper (componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
-    UsuarioEntity createUsuarioEntity (UsuarioDtoCreate usuarioDtoCreate);
+    UsuarioEntity createUsuarioEntity(UsuarioDtoCreate usuarioDtoCreate);
 
-    UsuarioEntity updateUsuarioEntity (UsuarioDtoUpdate usuarioDtoUpdate);
+    UsuarioEntity updateUsuarioEntity(UsuarioDtoUpdate usuarioDtoUpdate);
 
-    UsuarioDtoRead readUsuarioDto (UsuarioEntity usuarioEntity);
+    UsuarioDtoRead readUsuarioDto(UsuarioEntity usuarioEntity);
 }
