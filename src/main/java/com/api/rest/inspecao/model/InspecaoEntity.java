@@ -5,11 +5,17 @@ import com.api.rest.objeto.model.ObjetoEntity;
 import com.api.rest.tenant.model.TenantEntity;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Table (name = "inspecoes")
 @Entity
+
+@Getter
+@Setter
+@NoArgsConstructor
+
 public class InspecaoEntity {
 
     @Id
