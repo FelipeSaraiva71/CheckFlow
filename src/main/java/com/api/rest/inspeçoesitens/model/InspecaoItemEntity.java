@@ -5,11 +5,19 @@ import com.api.rest.itens.model.ItemEntity;
 import com.api.rest.tenant.model.TenantEntity;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Table(name = "inspecoes_itens")
 @Entity
+
+@Getter
+@Setter
+
+@NoArgsConstructor
 public class InspecaoItemEntity {
 
     @Id
@@ -28,7 +36,7 @@ public class InspecaoItemEntity {
     @Column(nullable = false, length = 10)
     private StatusItemEnum status;
 
-    @Column( length = 200)
+    @Column(length = 200)
     private String observacao;
 
     @ManyToOne(fetch = FetchType.LAZY)
