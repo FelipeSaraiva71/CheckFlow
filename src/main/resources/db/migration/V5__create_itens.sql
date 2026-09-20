@@ -3,7 +3,7 @@ CREATE TABLE itens
 
     id             BIGINT AUTO_INCREMENT PRIMARY KEY,
 
-    nome           VARCHAR(100) NOT NULL,
+    nome           VARCHAR(100) UNIQUE NOT NULL,
 
     criado_por     BIGINT       NOT NULL,
 
