@@ -1,4 +1,4 @@
-package com.api.rest.inspeçoesitens.model;
+package com.api.rest.inspecoesitens.model;
 
 import com.api.rest.inspecao.model.InspecaoEntity;
 import com.api.rest.itens.model.ItemEntity;

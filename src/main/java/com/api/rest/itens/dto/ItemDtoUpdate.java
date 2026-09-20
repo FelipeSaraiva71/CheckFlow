@@ -1,7 +1,7 @@
 package com.api.rest.itens.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -14,7 +14,7 @@ import lombok.*;
 public class ItemDtoUpdate {
 
     @NotBlank
-    @Column(unique = true, nullable = false, length = 100)
+    @Size(min = 1, max = 100)
     private String nome;
 
 }

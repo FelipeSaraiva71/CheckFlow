@@ -36,7 +36,7 @@ public class ItemEntity {
     @JoinColumn(name = "atualizado_por")
     private UsuarioEntity atualizadoPor;
 
-    @Column (name = " atualizado_em")
+    @Column (name = "atualizado_em")
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)

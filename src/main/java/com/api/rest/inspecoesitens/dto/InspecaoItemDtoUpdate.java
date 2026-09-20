@@ -1,6 +1,6 @@
-package com.api.rest.inspeçoesitens.dto;
+package com.api.rest.inspecoesitens.dto;
 
-import com.api.rest.inspeçoesitens.model.StatusItemEnum;
+import com.api.rest.inspecoesitens.model.StatusItemEnum;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 
 @Builder
-public class InspecaoItensDtoCreate {
+public class InspecaoItemDtoUpdate {
 
     @NotNull
     private Long inspecaoId;
