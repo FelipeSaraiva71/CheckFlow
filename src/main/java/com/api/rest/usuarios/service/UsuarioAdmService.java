@@ -34,7 +34,7 @@ public class UsuarioAdmService {
             throw new IllegalArgumentException("E-mail já existe!");
         }
 
-        UsuarioEntity entity = usuarioMapper.createUsuarioEntity(usuarioAdmDtoCreate);
+        UsuarioEntity entity = usuarioMapper.createUsuarioAdmEntity(usuarioAdmDtoCreate);
         entity.setTipo(UsuarioTipoEnum.ADM);
         entity.setStatus(StatusUsuarioEnum.ATIVO);
 
