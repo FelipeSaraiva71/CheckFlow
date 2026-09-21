@@ -1,19 +1,15 @@
 package com.api.rest.usuarios.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
 @Setter
-
 @AllArgsConstructor
 @NoArgsConstructor
 
 @Builder
-public class UsuarioDtoCreate {
+public class UsuarioAdmDtoCreate {
 
     @NotBlank
     @Size(min = 1, max = 20)
@@ -33,5 +29,8 @@ public class UsuarioDtoCreate {
     @NotBlank
     @Size(min = 1, max = 60)
     private String password;
+
+    @NotNull
+    private Long tenantId;
 
 }

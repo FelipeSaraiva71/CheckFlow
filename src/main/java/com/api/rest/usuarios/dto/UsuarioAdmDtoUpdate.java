@@ -1,9 +1,7 @@
 package com.api.rest.usuarios.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import com.api.rest.usuarios.model.StatusUsuarioEnum;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
@@ -13,7 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 
 @Builder
-public class UsuarioDtoCreate {
+
+public class UsuarioAdmDtoUpdate {
 
     @NotBlank
     @Size(min = 1, max = 20)
@@ -23,15 +22,18 @@ public class UsuarioDtoCreate {
     @Size(min = 1, max = 50)
     private String sobrenome;
 
+    @NotBlank
     @Pattern(regexp = "\\d{10,11}")
     private String telefone;
 
+    @NotBlank
     @Email
     @Size(min = 1, max = 150)
     private String email;
 
-    @NotBlank
-    @Size(min = 1, max = 60)
-    private String password;
+    @NotNull
+    private StatusUsuarioEnum status;
 
+    @NotNull
+    private Long tenantId;
 }
