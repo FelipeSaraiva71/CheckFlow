@@ -1,9 +1,7 @@
 package com.api.rest.usuarios.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import com.api.rest.usuarios.model.StatusUsuarioEnum;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
@@ -32,5 +30,8 @@ public class UsuarioDtoUpdate {
     @NotBlank
     @Size(min = 1, max = 60)
     private String password;
+
+    @NotNull
+    private StatusUsuarioEnum status;
 
 }
