@@ -1,5 +1,7 @@
 package com.api.rest.usuarios.service;
 
+import com.api.rest.exception.ConflitoException;
+import com.api.rest.exception.RecursoNaoEncontradoException;
 import com.api.rest.tenant.model.TenantEntity;
 import com.api.rest.tenant.repository.TenantRepository;
 import com.api.rest.usuarios.dto.UsuarioAdmDtoCreate;
@@ -31,12 +33,16 @@ public class UsuarioAdmService {
     public UsuarioDtoRead saveAdm(UsuarioAdmDtoCreate usuarioAdmDtoCreate) {
 
         if (usuarioRepository.existsByEmail(usuarioAdmDtoCreate.getEmail())) {
-            throw new IllegalArgumentException("E-mail já existe!");
+            throw new ConflitoException("E-mail já existe!");
         }
+
+        TenantEntity tenant = tenantRepository.findById(usuarioAdmDtoCreate.getTenantId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Tenant não encontrado!"));
 
         UsuarioEntity entity = usuarioMapper.createUsuarioAdmEntity(usuarioAdmDtoCreate);
         entity.setTipo(UsuarioTipoEnum.ADM);
         entity.setStatus(StatusUsuarioEnum.ATIVO);
+        entity.setTenant(tenant);
 
         UsuarioEntity salvo = usuarioRepository.save(entity);
         return usuarioMapper.readUsuarioDto(salvo);
@@ -49,11 +55,11 @@ public class UsuarioAdmService {
 
     public UsuarioDtoRead updateAdm(Long id, UsuarioAdmDtoUpdate usuarioAdmDtoUpdate) {
 
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado!"));
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Usuario não encontrado!"));
 
 
         if (usuarioRepository.existsByEmailAndIdNot(usuarioAdmDtoUpdate.getEmail(), id)) {
-            throw new IllegalArgumentException("E-mail já existe!");
+            throw new ConflitoException("E-mail já existe!");
         }
 
         usuarioEntity.setNome(usuarioAdmDtoUpdate.getNome());
@@ -67,7 +73,7 @@ public class UsuarioAdmService {
         usuarioEntity.setStatus(usuarioAdmDtoUpdate.getStatus());
 
         TenantEntity tenant = tenantRepository.findById(usuarioAdmDtoUpdate.getTenantId())
-                .orElseThrow(() -> new IllegalArgumentException("Tenant não encontrado!"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Tenant não encontrado!"));
         usuarioEntity.setTenant(tenant);
 
 
