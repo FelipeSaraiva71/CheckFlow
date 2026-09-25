@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
 
 
-    @ExceptionHandler(RecursoNaoEncontradoException.class)
+    @ExceptionHandler(ConflitoException.class)
     public ResponseEntity<String> conflito(
             ConflitoException exception
     )

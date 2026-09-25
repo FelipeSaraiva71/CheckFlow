@@ -4,4 +4,6 @@ import com.api.rest.tenant.model.TenantEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TenantRepository extends JpaRepository<TenantEntity, Long> {
+
+    boolean existsByNome (String nome);
 }
