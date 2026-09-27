@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 public class ObjetoItemDtoRead {
 
-    private Long objeto;
+    private Long objetoId;
 
     private Long itemId;
 

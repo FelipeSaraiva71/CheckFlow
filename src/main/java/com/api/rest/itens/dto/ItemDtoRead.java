@@ -9,5 +9,7 @@ import lombok.Getter;
 @Builder
 public class ItemDtoRead {
 
+    private Long id;
+
     private String nome;
 }
