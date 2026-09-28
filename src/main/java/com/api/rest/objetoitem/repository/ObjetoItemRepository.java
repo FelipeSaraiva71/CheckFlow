@@ -6,12 +6,13 @@ import com.api.rest.objetoitem.model.ObjetoItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ObjetoItemRepository extends JpaRepository<ObjetoItemEntity, Long> {
 
 
     List<ObjetoItemEntity> findByObjeto(ObjetoEntity objeto);
-    void deleteByObjetoAndItem(ObjetoEntity objeto, ItemEntity item);
+    Optional<ObjetoItemEntity> findByObjetoAndItem(ObjetoEntity objeto, ItemEntity item);
 
 
 }

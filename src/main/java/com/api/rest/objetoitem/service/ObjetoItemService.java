@@ -1,6 +1,8 @@
 package com.api.rest.objetoitem.service;
 
 
+import com.api.rest.exception.ConflitoException;
+import com.api.rest.exception.RecursoNaoEncontradoException;
 import com.api.rest.itens.dto.ItemDtoCreate;
 import com.api.rest.itens.dto.ItemDtoRead;
 import com.api.rest.itens.dto.ItemDtoUpdate;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ObjetoItemService {
@@ -47,34 +50,71 @@ public class ObjetoItemService {
 
     }
 
-    public ObjetoItemDtoRead create(ObjetoItemDtoCreate objetoItemDtoCreate) {
+    @Transactional
+    public ObjetoItemDtoRead create(ObjetoItemDtoCreate dto) {
 
-        ObjetoEntity objetoEntity = new ObjetoEntity();
+        // Verifica se o Objeto já existe
+        if (objetoRepository.findByIdentificacao(
+                dto.getObjeto().getIdentificacao()).isPresent()) {
 
-        objetoEntity.setNome(objetoItemDtoCreate.getObjeto().getNome());
-        objetoEntity.setIdentificacao(objetoItemDtoCreate.getObjeto().getIdentificacao());
-        objetoEntity.setDescricao(objetoItemDtoCreate.getObjeto().getDescricao());
+            throw new ConflitoException(
+                    "Já existe um objeto com essa identificação"
+            );
+        }
 
-        ObjetoEntity objetoSalvo = objetoRepository.save(objetoEntity);
+        // Cria o Objeto
+        ObjetoEntity objeto = new ObjetoEntity();
+
+        objeto.setNome(dto.getObjeto().getNome());
+        objeto.setIdentificacao(dto.getObjeto().getIdentificacao());
+        objeto.setDescricao(dto.getObjeto().getDescricao());
+
+        ObjetoEntity objetoSalvo = objetoRepository.save(objeto);
 
         List<ItemEntity> itensSalvo = new ArrayList<>();
 
-        for (ItemDtoCreate itemDto : objetoItemDtoCreate.getItem()) {
 
-            ItemEntity item = new ItemEntity();
+        // Processa os Itens
+        for (ItemDtoCreate itemDto : dto.getItem()) {
 
-            item.setNome(itemDto.getNome());
+            ItemEntity item;
 
-            ItemEntity itemSalvo = itemRepository.save(item);
-            itensSalvo.add(itemSalvo);
-            ObjetoItemEntity relacao = new ObjetoItemEntity();
+            // Verifica se o Item já existe
+            Optional<ItemEntity> itemExistente =
+                    itemRepository.findByNome(itemDto.getNome());
 
+            if (itemExistente.isPresent()) {
 
-            relacao.setObjeto(objetoSalvo);
-            relacao.setItem(itemSalvo);
+                // Reutiliza o Item existente
+                item = itemExistente.get();
 
-            objetoItemRepository.save(relacao);
+            } else {
+
+                // Cria um novo Item
+                item = new ItemEntity();
+                item.setNome(itemDto.getNome());
+
+                item = itemRepository.save(item);
+            }
+
+            // Verifica se a relação já existe
+            Optional<ObjetoItemEntity> relacaoExistente =
+                    objetoItemRepository.findByObjetoAndItem(objetoSalvo, item);
+
+            if (relacaoExistente.isEmpty()) {
+
+                ObjetoItemEntity relacao = new ObjetoItemEntity();
+
+                relacao.setObjeto(objetoSalvo);
+                relacao.setItem(item);
+
+                objetoItemRepository.save(relacao);
+            }
+
+            itensSalvo.add(item);
         }
+
+
         return objetoItemMapper.objetoItemReadEntity(
                 objetoMapper.readObjetoDto(objetoSalvo),
                 itensSalvo.stream()
@@ -96,12 +136,24 @@ public class ObjetoItemService {
             return objetoItemMapper.objetoItemReadEntity(objetoMapper.readObjetoDto(objeto), itens);
         });
     }
-
     @Transactional
     public ObjetoItemDtoRead update(ObjetoItemDtoUpdate dto) {
 
+        // Verifica se o Objeto existe
         ObjetoEntity objeto = objetoRepository.findById(dto.getObjetoId())
-                .orElseThrow();
+                .orElseThrow(()-> new RecursoNaoEncontradoException("Objeto não encontrado!"));
+
+        Optional<ObjetoEntity> objetoExistente =
+                objetoRepository.findByIdentificacao(
+                        dto.getObjeto().getIdentificacao()
+                );
+
+        if (objetoExistente.isPresent()
+                && !objetoExistente.get().getId().equals(dto.getObjetoId())) {
+
+            throw new ConflitoException(
+                    "Já existe um objeto com essa identificação!");
+        }
 
         // Atualiza o Objeto
         objeto.setNome(dto.getObjeto().getNome());
@@ -110,60 +162,80 @@ public class ObjetoItemService {
 
         ObjetoEntity objetoSalvo = objetoRepository.save(objeto);
 
-        // Busca as relações atuais do objeto
-        List<ObjetoItemEntity> relacoes =
-                objetoItemRepository.findByObjeto(objetoSalvo);
 
-        List<ItemEntity> itens = new ArrayList<>();
-
+        // Processa os Itens
         for (ItemDtoUpdate itemDto : dto.getItem()) {
 
-            if (itemDto.getId() != null) {
+            ItemEntity item;
 
-                // Item existente
-                ItemEntity item = itemRepository.findById(itemDto.getId())
-                        .orElseThrow();
+            // Procura o Item pelo nome
+            Optional<ItemEntity> itemExistente =
+                    itemRepository.findByNome(itemDto.getNome());
 
-                item.setNome(itemDto.getNome());
+            if (itemExistente.isPresent()) {
 
-                ItemEntity itemSalvo = itemRepository.save(item);
-
-                itens.add(itemSalvo);
+                // Item já existe
+                item = itemExistente.get();
 
             } else {
 
-                // Item novo
-                ItemEntity item = new ItemEntity();
-
+                // Item não existe → cria
+                item = new ItemEntity();
                 item.setNome(itemDto.getNome());
 
-                ItemEntity itemSalvo = itemRepository.save(item);
+                item = itemRepository.save(item);
+            }
 
+
+            // Verifica se a relação já existe
+            Optional<ObjetoItemEntity> relacaoExistente =
+                    objetoItemRepository.findByObjetoAndItem(objetoSalvo, item);
+
+            if (relacaoExistente.isEmpty()) {
+
+                // Cria somente a relação
                 ObjetoItemEntity relacao = new ObjetoItemEntity();
+
                 relacao.setObjeto(objetoSalvo);
-                relacao.setItem(itemSalvo);
+                relacao.setItem(item);
 
                 objetoItemRepository.save(relacao);
-
-                itens.add(itemSalvo);
             }
         }
 
+
+        // Busca novamente todas as relações atuais
+        List<ObjetoItemEntity> relacoes =
+                objetoItemRepository.findByObjeto(objetoSalvo);
+
+        List<ItemDtoRead> itens = relacoes.stream()
+                .map(relacao -> itemMapper.itemDtoRead(relacao.getItem()))
+                .toList();
+
+
+        // Retorna o estado atual completo
         return objetoItemMapper.objetoItemReadEntity(
                 objetoMapper.readObjetoDto(objetoSalvo),
-                itens.stream()
-                        .map(itemMapper::itemDtoRead)
-                        .toList()
+                itens
         );
     }
-
     public void delete(Long objetoId, Long itemId){
 
-        ObjetoEntity objeto = objetoRepository.findById(objetoId).orElseThrow();
 
-        ItemEntity item = itemRepository.findById(itemId).orElseThrow();
+        ObjetoEntity objeto = objetoRepository.findById(objetoId).orElseThrow(()-> new RecursoNaoEncontradoException("Objeto não encontrado!"));
 
-         objetoItemRepository.deleteByObjetoAndItem(objeto, item);
+        ItemEntity item = itemRepository.findById(itemId).orElseThrow(()-> new RecursoNaoEncontradoException("Item não encontrado!"));
+
+        Optional<ObjetoItemEntity> relacao =
+                objetoItemRepository.findByObjetoAndItem(objeto, item);
+
+        if (relacao.isEmpty()) {
+            throw new RecursoNaoEncontradoException(
+                    "Relação entre objeto e item não encontrada!"
+            );
+        }
+
+         objetoItemRepository.delete(relacao.get());
 
     }
 
