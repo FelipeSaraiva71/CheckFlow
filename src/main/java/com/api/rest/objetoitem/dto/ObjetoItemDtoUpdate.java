@@ -1,7 +1,13 @@
 package com.api.rest.objetoitem.dto;
 
+import com.api.rest.itens.dto.ItemDtoCreate;
+import com.api.rest.itens.dto.ItemDtoUpdate;
+import com.api.rest.objeto.dto.ObjetoDtoCreate;
+import com.api.rest.objeto.dto.ObjetoDtoUpdate;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,5 +23,8 @@ public class ObjetoItemDtoUpdate {
     private Long objetoId;
 
     @NotNull
-    private Long itemId;
+    private ObjetoDtoUpdate objeto;
+
+    @NotNull
+    private List<ItemDtoUpdate> Item;
 }

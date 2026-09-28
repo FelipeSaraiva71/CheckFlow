@@ -6,19 +6,91 @@ Sistema para controle e realização de inspeções de diferentes tipos de objet
 
 Projeto desenvolvido com o objetivo de praticar e aprimorar conhecimentos em desenvolvimento de software, utilizando Java e Spring Boot.
 
-O sistema foi projetado para permitir a criação de objetos inspecionáveis, seus respectivos itens de inspeção e o registro dos resultados das inspeções.
+O sistema foi projetado para permitir a criação de objetos inspecionáveis, a configuração de seus itens de inspeção e o registro dos resultados das inspeções.
+
+A arquitetura foi estruturada para permitir a evolução do sistema para diferentes tipos de objetos, evitando uma implementação específica para um único segmento.
 
 ## Funcionalidades
 
-- Cadastro e gerenciamento de usuários
-- Controle de empresas através de estrutura multi-tenant
-- Cadastro de objetos inspecionáveis
-- Cadastro de itens de inspeção
-- Associação entre objetos e itens
-- Realização de inspeções
-- Registro do resultado de cada item inspecionado
-- Controle de auditoria de criação e atualização
-- Autenticação e autorização utilizando JWT
+* Cadastro e gerenciamento de usuários
+* Controle de empresas através de estrutura multi-tenant
+* Cadastro e gerenciamento de objetos inspecionáveis
+* Cadastro e gerenciamento de itens de inspeção
+* Associação de itens aos objetos
+* Reutilização de itens em diferentes objetos
+* Atualização de objetos e seus respectivos itens
+* Adição de novos itens durante a atualização de um objeto
+* Remoção da associação entre objeto e item sem excluir o item
+* Realização de inspeções
+* Registro do resultado de cada item inspecionado
+* Controle de auditoria de criação e atualização
+* Autenticação e autorização utilizando JWT
+
+## Modelo de Objetos e Itens
+
+O sistema utiliza três conceitos principais para configurar os objetos que serão inspecionados:
+
+```text
+Objeto
+   │
+   ├── ObjetoItem ─── Item
+   ├── ObjetoItem ─── Item
+   └── ObjetoItem ─── Item
+```
+
+O `Item` é uma entidade reutilizável e pode estar associado a diferentes objetos.
+
+A entidade `ObjetoItem` representa somente a relação entre um objeto e um item.
+
+### Exemplo
+
+```text
+Item: "Pneus"
+   │
+   ├── Objeto: Veículo A
+   ├── Objeto: Veículo B
+   └── Objeto: Máquina C
+```
+
+Ao remover "Pneus" do Veículo A, somente a relação entre os dois é removida. O item continua disponível para os demais objetos.
+
+## Operações de Objetos e Itens
+
+### Create
+
+Permite criar um objeto juntamente com seus itens e respectivas relações.
+
+```text
+Objeto
+   │
+   ├── Item
+   ├── Item
+   └── Item
+```
+
+### Read
+
+Permite consultar um objeto juntamente com os itens associados a ele.
+
+### Update
+
+Permite:
+
+* Atualizar os dados do objeto
+* Atualizar itens existentes
+* Adicionar novos itens
+* Criar novas relações entre o objeto e os novos itens
+* Manter as relações existentes
+
+### Delete
+
+A remoção de um item de um objeto remove somente a entidade de associação `ObjetoItem`.
+
+```text
+DELETE ObjetoItem
+```
+
+O `Objeto` e o `Item` permanecem cadastrados.
 
 ## Arquitetura
 
@@ -36,3 +108,65 @@ ObjetoService
 InspecaoService
    ├── Inspecao
    └── InspecaoItem
+```
+
+## Multi-Tenant
+
+O sistema utiliza uma arquitetura multi-tenant para permitir que diferentes empresas utilizem a aplicação mantendo seus dados associados ao respectivo `Tenant`.
+
+```text
+Tenant
+  │
+  ├── Usuarios
+  ├── Objetos
+  ├── Itens
+  └── Inspeções
+```
+
+## Inspeções
+
+Após a configuração dos objetos e seus respectivos itens, o sistema permite realizar inspeções.
+
+Durante uma inspeção, o usuário seleciona um objeto e registra o resultado de cada item associado a ele.
+
+```text
+Objeto
+   │
+   └── Inspeção
+          │
+          ├── Item → Resultado
+          ├── Item → Resultado
+          └── Item → Resultado
+```
+
+## Tecnologias
+
+* Java
+* Spring Boot
+* Spring Data JPA
+* Spring Security
+* JWT
+* Hibernate
+* Bean Validation
+* MapStruct
+* Lombok
+* Flyway
+* Maven
+
+## Objetivo do Projeto
+
+O CheckFlow é também um projeto de estudo e evolução prática, permitindo aprofundar conhecimentos em:
+
+* Arquitetura de aplicações Spring Boot
+* Desenvolvimento de APIs REST
+* JPA e Hibernate
+* Modelagem de relacionamentos
+* DTOs e Mappers
+* Arquitetura multi-tenant
+* Autenticação e autorização com JWT
+* Versionamento de banco de dados com Flyway
+* Validação de dados
+* Auditoria
+* Boas práticas de desenvolvimento de software
+
+Criado por: Felipe Saraiva

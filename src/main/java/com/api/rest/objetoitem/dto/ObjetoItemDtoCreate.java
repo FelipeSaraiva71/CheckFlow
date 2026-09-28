@@ -1,7 +1,11 @@
 package com.api.rest.objetoitem.dto;
 
+import com.api.rest.itens.dto.ItemDtoCreate;
+import com.api.rest.objeto.dto.ObjetoDtoCreate;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,8 +17,8 @@ import lombok.*;
 public class ObjetoItemDtoCreate {
 
     @NotNull
-    private Long objetoId;
+    private ObjetoDtoCreate  objeto;
 
     @NotNull
-    private Long itemId;
+    private List<ItemDtoCreate> item;
 }
