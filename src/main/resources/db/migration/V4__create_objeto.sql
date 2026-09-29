@@ -16,7 +16,7 @@ CREATE TABLE objetos
 
     atualizado_em  TIMESTAMP,
 
-    tenant_id      BIGINT       NOT NULL,
+    responsavel_id      BIGINT       NOT NULL,
 
     CONSTRAINT fk_objeto_criado_por
         FOREIGN KEY (criado_por)
@@ -27,7 +27,7 @@ CREATE TABLE objetos
             REFERENCES usuarios (id),
 
     CONSTRAINT fk_objeto_tenant
-        FOREIGN KEY (tenant_id)
+        FOREIGN KEY (responsavel_id)
             REFERENCES tenants (id)
 
 )

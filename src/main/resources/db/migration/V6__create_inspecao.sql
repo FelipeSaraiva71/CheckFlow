@@ -13,7 +13,7 @@ CREATE TABLE inspecoes
 
     atualizado_em  TIMESTAMP,
 
-    tenant_id      BIGINT    NOT NULL,
+    responsavel_id      BIGINT    NOT NULL,
 
     CONSTRAINT fk_inspecao_objeto
         FOREIGN KEY (objeto_id)
@@ -28,6 +28,6 @@ CREATE TABLE inspecoes
             REFERENCES usuarios (id),
 
     CONSTRAINT fk_inspecao_tenant
-        FOREIGN KEY (tenant_id)
+        FOREIGN KEY (responsavel_id)
             REFERENCES tenants (id)
 )

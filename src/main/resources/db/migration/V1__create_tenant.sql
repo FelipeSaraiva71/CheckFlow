@@ -2,7 +2,7 @@ CREATE TABLE tenants
 (
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
 
-    nome     VARCHAR(200) UNIQUE NOT NULL,
+    responsavel     VARCHAR(200) UNIQUE NOT NULL,
 
     email    VARCHAR(150),
 

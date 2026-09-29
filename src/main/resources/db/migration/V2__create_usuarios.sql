@@ -25,7 +25,7 @@ CREATE TABLE usuarios
 
     atualizado_em  TIMESTAMP,
 
-    tenant_id      BIGINT ,
+    responsavel_id      BIGINT ,
 
     CONSTRAINT fk_usuario_criado_por
         FOREIGN KEY (criado_por)
@@ -36,7 +36,7 @@ CREATE TABLE usuarios
             REFERENCES usuarios (id),
 
     CONSTRAINT fk_usuario_tenant
-        FOREIGN KEY (tenant_id)
+        FOREIGN KEY (responsavel_id)
             REFERENCES tenants (id)
 
 )

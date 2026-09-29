@@ -16,6 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Service
 public class UsuarioAdmService {
 
@@ -36,13 +39,20 @@ public class UsuarioAdmService {
             throw new ConflitoException("E-mail já existe!");
         }
 
-        TenantEntity tenant = tenantRepository.findById(usuarioAdmDtoCreate.getTenantId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Tenant não encontrado!"));
+        UsuarioEntity usuario = usuarioRepository.findById(1L)
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Usuário não encontrado"));
+
+
+        TenantEntity tenant = tenantRepository.findById(usuarioAdmDtoCreate.getResponsavelId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsavel não encontrado!"));
 
         UsuarioEntity entity = usuarioMapper.createUsuarioAdmEntity(usuarioAdmDtoCreate);
         entity.setTipo(UsuarioTipoEnum.ADM);
         entity.setStatus(StatusUsuarioEnum.ATIVO);
-        entity.setTenant(tenant);
+        entity.setResponsavel(tenant);
+        entity.setCriadoPor(usuario);
+        entity.setCriadoEm(LocalDateTime.now());
 
         UsuarioEntity salvo = usuarioRepository.save(entity);
         return usuarioMapper.readUsuarioDto(salvo);
@@ -72,9 +82,9 @@ public class UsuarioAdmService {
 
         usuarioEntity.setStatus(usuarioAdmDtoUpdate.getStatus());
 
-        TenantEntity tenant = tenantRepository.findById(usuarioAdmDtoUpdate.getTenantId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Tenant não encontrado!"));
-        usuarioEntity.setTenant(tenant);
+        TenantEntity tenant = tenantRepository.findById(usuarioAdmDtoUpdate.getResponsavelId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsavel não encontrado!"));
+        usuarioEntity.setResponsavel(tenant);
 
 
         UsuarioDtoRead usuarioDtoRead = usuarioMapper.readUsuarioDto(usuarioRepository.save(usuarioEntity));

@@ -35,5 +35,5 @@ public class UsuarioAdmDtoUpdate {
     private StatusUsuarioEnum status;
 
     @NotNull
-    private Long tenantId;
+    private Long responsavelId;
 }

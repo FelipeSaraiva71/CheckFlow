@@ -47,6 +47,6 @@ public class ObjetoItemEntity {
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "tenant_id")
-    private TenantEntity tenant;
+    @JoinColumn(nullable = false, name = "responsavel_id")
+    private TenantEntity responsavel;
 }

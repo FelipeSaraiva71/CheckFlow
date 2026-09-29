@@ -21,7 +21,7 @@ public class TenantEntity {
     private Long id;
 
     @Column(unique = true, nullable = false, length = 200)
-    private String nome;
+    private String responsavel;
 
     @Column(length = 150)
     private String email;

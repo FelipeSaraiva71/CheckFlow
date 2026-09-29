@@ -15,7 +15,7 @@ public class TenantDtoUpdate {
 
     @NotBlank
     @Size(min = 2, max = 200)
-    private String nome;
+    private String responsavel;
 
     @Email
     @NotBlank

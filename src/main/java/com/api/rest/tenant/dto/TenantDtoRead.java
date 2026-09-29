@@ -13,7 +13,7 @@ public class TenantDtoRead {
 
     private Long id;
 
-    private String nome;
+    private String responsavel;
 
     private String email;
 

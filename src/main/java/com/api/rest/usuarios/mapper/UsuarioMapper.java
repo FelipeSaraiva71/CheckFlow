@@ -22,6 +22,6 @@ public interface UsuarioMapper {
     UsuarioEntity updateUsuarioEntity(UsuarioDtoUpdate usuarioDtoUpdate);
 
 
-    @Mapping(source = "tenant.nome", target = "nomeTenant")
+    @Mapping(source = "responsavel.responsavel", target = "nomeResponsavel")
     UsuarioDtoRead readUsuarioDto(UsuarioEntity usuarioEntity);
 }

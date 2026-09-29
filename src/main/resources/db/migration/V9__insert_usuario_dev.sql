@@ -1,5 +1,5 @@
 INSERT INTO usuarios
-(nome, sobrenome, telefone, email,  password,status,tipo,tenant_id,criado_Por,criado_Em,atualizado_Por,atualizado_Em)
+(nome, sobrenome, telefone, email,  password,status,tipo,responsavel_id,criado_Por,criado_Em,atualizado_Por,atualizado_Em)
 VALUES
     (
         'Felipe',

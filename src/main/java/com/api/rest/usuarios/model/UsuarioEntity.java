@@ -58,8 +58,8 @@ public class UsuarioEntity {
     private LocalDateTime atualizadoEm;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tenant_id", nullable = false)
-    private TenantEntity tenant;
+    @JoinColumn(name = "responsavel_id", nullable = false)
+    private TenantEntity responsavel;
 
 
 }

@@ -34,7 +34,7 @@ public class TenantController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TenantDtoRead>> findAllTenant(@PageableDefault(size = 10, sort = "nome") Pageable pageable) {
+    public ResponseEntity<Page<TenantDtoRead>> findAllTenant(@PageableDefault(size = 10, sort = "responsavel") Pageable pageable) {
         return ResponseEntity.ok(tenantService.findByAll(pageable));
 
     }

@@ -13,7 +13,7 @@ CREATE TABLE itens
 
     atualizado_em  TIMESTAMP,
 
-    tenant_id      BIGINT       NOT NULL,
+    responsavel_id      BIGINT       NOT NULL,
 
     CONSTRAINT fk_item_criado_por
         FOREIGN KEY (criado_por)
@@ -24,7 +24,7 @@ CREATE TABLE itens
             REFERENCES usuarios (id),
 
     CONSTRAINT fk_item_tenant
-        FOREIGN KEY (tenant_id)
+        FOREIGN KEY (responsavel_id)
             REFERENCES tenants (id)
 
 )

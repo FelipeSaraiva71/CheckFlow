@@ -26,6 +26,6 @@ public class UsuarioDtoRead {
 
     private UsuarioTipoEnum tipo;
 
-    private String nomeTenant;
+    private String nomeResponsavel;
 
 }

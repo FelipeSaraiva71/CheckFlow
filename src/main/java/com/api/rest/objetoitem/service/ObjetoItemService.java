@@ -18,11 +18,14 @@ import com.api.rest.objetoitem.dto.ObjetoItemDtoUpdate;
 import com.api.rest.objetoitem.mapper.ObjetoItemMapper;
 import com.api.rest.objetoitem.model.ObjetoItemEntity;
 import com.api.rest.objetoitem.repository.ObjetoItemRepository;
+import com.api.rest.usuarios.model.UsuarioEntity;
+import com.api.rest.usuarios.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +40,10 @@ public class ObjetoItemService {
     private final ObjetoItemMapper objetoItemMapper;
     private final ObjetoMapper objetoMapper;
     private final ItemMapper itemMapper;
+    private final UsuarioRepository usuarioRepository;
 
 
-    public ObjetoItemService(ObjetoItemRepository objetoItemRepository, ObjetoRepository objetoRepository, ItemRepository itemRepository, ObjetoItemMapper objetoItemMapper, ObjetoMapper objetoMapper, ItemMapper itemMapper) {
+    public ObjetoItemService(ObjetoItemRepository objetoItemRepository, ObjetoRepository objetoRepository, ItemRepository itemRepository, ObjetoItemMapper objetoItemMapper, ObjetoMapper objetoMapper, ItemMapper itemMapper, UsuarioRepository usuarioRepository) {
 
         this.objetoItemRepository = objetoItemRepository;
         this.objetoRepository = objetoRepository;
@@ -47,6 +51,7 @@ public class ObjetoItemService {
         this.objetoItemMapper = objetoItemMapper;
         this.objetoMapper = objetoMapper;
         this.itemMapper = itemMapper;
+        this.usuarioRepository = usuarioRepository;
 
     }
 
@@ -62,12 +67,20 @@ public class ObjetoItemService {
             );
         }
 
+        UsuarioEntity usuario = usuarioRepository.findById(2L)
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Usuário não encontrado"));
+
+
         // Cria o Objeto
         ObjetoEntity objeto = new ObjetoEntity();
 
         objeto.setNome(dto.getObjeto().getNome());
         objeto.setIdentificacao(dto.getObjeto().getIdentificacao());
         objeto.setDescricao(dto.getObjeto().getDescricao());
+        objeto.setCriadoPor(usuario);
+        objeto.setCriadoEm(LocalDateTime.now());
+        objeto.setResponsavel(usuario.getResponsavel());
 
         ObjetoEntity objetoSalvo = objetoRepository.save(objeto);
 
@@ -93,6 +106,9 @@ public class ObjetoItemService {
                 // Cria um novo Item
                 item = new ItemEntity();
                 item.setNome(itemDto.getNome());
+                item.setCriadoPor(usuario);
+                item.setCriadoEm(LocalDateTime.now());
+                item.setResponsavel(usuario.getResponsavel());
 
                 item = itemRepository.save(item);
             }
@@ -107,6 +123,10 @@ public class ObjetoItemService {
 
                 relacao.setObjeto(objetoSalvo);
                 relacao.setItem(item);
+                relacao.setCriadoPor(usuario);
+                relacao.setCriadoEm(LocalDateTime.now());
+                relacao.setResponsavel(usuario.getResponsavel());
+
 
                 objetoItemRepository.save(relacao);
             }
@@ -124,6 +144,7 @@ public class ObjetoItemService {
     }
 
 
+    @Transactional
     public Page<ObjetoItemDtoRead> findAll(Pageable pageable) {
 
         return objetoRepository.findAll(pageable).map(objeto -> {
@@ -136,12 +157,13 @@ public class ObjetoItemService {
             return objetoItemMapper.objetoItemReadEntity(objetoMapper.readObjetoDto(objeto), itens);
         });
     }
+
     @Transactional
     public ObjetoItemDtoRead update(ObjetoItemDtoUpdate dto) {
 
         // Verifica se o Objeto existe
         ObjetoEntity objeto = objetoRepository.findById(dto.getObjetoId())
-                .orElseThrow(()-> new RecursoNaoEncontradoException("Objeto não encontrado!"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Objeto não encontrado!"));
 
         Optional<ObjetoEntity> objetoExistente =
                 objetoRepository.findByIdentificacao(
@@ -219,12 +241,13 @@ public class ObjetoItemService {
                 itens
         );
     }
-    public void delete(Long objetoId, Long itemId){
+
+    public void delete(Long objetoId, Long itemId) {
 
 
-        ObjetoEntity objeto = objetoRepository.findById(objetoId).orElseThrow(()-> new RecursoNaoEncontradoException("Objeto não encontrado!"));
+        ObjetoEntity objeto = objetoRepository.findById(objetoId).orElseThrow(() -> new RecursoNaoEncontradoException("Objeto não encontrado!"));
 
-        ItemEntity item = itemRepository.findById(itemId).orElseThrow(()-> new RecursoNaoEncontradoException("Item não encontrado!"));
+        ItemEntity item = itemRepository.findById(itemId).orElseThrow(() -> new RecursoNaoEncontradoException("Item não encontrado!"));
 
         Optional<ObjetoItemEntity> relacao =
                 objetoItemRepository.findByObjetoAndItem(objeto, item);
@@ -235,7 +258,7 @@ public class ObjetoItemService {
             );
         }
 
-         objetoItemRepository.delete(relacao.get());
+        objetoItemRepository.delete(relacao.get());
 
     }
 

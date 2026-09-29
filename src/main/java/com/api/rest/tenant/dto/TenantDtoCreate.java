@@ -16,7 +16,7 @@ public class TenantDtoCreate {
 
     @NotBlank
     @Size(min = 2, max = 200)
-    private String nome;
+    private String responsavel;
 
     @Email
     @Size(max = 150)
