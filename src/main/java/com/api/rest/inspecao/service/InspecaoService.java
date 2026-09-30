@@ -15,6 +15,9 @@ import com.api.rest.objetoitem.repository.ObjetoItemRepository;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import com.api.rest.usuarios.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -60,6 +63,10 @@ public class InspecaoService {
 
         return inspecaoMapper.inspecaoReadEntity(salvo);
 
+    }
+
+    public Page<InspecaoDtoRead> listAll(Pageable pageable){
+        return inspecaoRepository.findAll(pageable).map(inspecaoMapper::inspecaoReadEntity);
     }
 
     @Transactional
