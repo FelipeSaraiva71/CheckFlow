@@ -13,6 +13,7 @@ public interface ObjetoItemRepository extends JpaRepository<ObjetoItemEntity, Lo
 
     List<ObjetoItemEntity> findByObjeto(ObjetoEntity objeto);
     Optional<ObjetoItemEntity> findByObjetoAndItem(ObjetoEntity objeto, ItemEntity item);
+    long countByObjeto(ObjetoEntity objeto);
 
 
 }

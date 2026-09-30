@@ -5,6 +5,8 @@ CREATE TABLE inspecoes
 
     objeto_id      BIGINT    NOT NULL,
 
+    status VARCHAR(15) NOT NULL,
+
     criado_por     BIGINT    NOT NULL,
 
     criado_em      TIMESTAMP NOT NULL,
@@ -23,7 +25,7 @@ CREATE TABLE inspecoes
         FOREIGN KEY (criado_por)
             REFERENCES usuarios (id),
 
-    CONSTRAINT fk_inspecao_atualizado_em
+    CONSTRAINT fk_inspecao_atualizado_por
         FOREIGN KEY (atualizado_por)
             REFERENCES usuarios (id),
 

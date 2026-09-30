@@ -37,21 +37,21 @@ public class ObjetoItemService {
     private final ObjetoItemRepository objetoItemRepository;
     private final ObjetoRepository objetoRepository;
     private final ItemRepository itemRepository;
+    private final UsuarioRepository usuarioRepository;
     private final ObjetoItemMapper objetoItemMapper;
     private final ObjetoMapper objetoMapper;
     private final ItemMapper itemMapper;
-    private final UsuarioRepository usuarioRepository;
 
 
-    public ObjetoItemService(ObjetoItemRepository objetoItemRepository, ObjetoRepository objetoRepository, ItemRepository itemRepository, ObjetoItemMapper objetoItemMapper, ObjetoMapper objetoMapper, ItemMapper itemMapper, UsuarioRepository usuarioRepository) {
+    public ObjetoItemService(ObjetoItemRepository objetoItemRepository, ObjetoRepository objetoRepository, ItemRepository itemRepository, UsuarioRepository usuarioRepository, ObjetoItemMapper objetoItemMapper, ObjetoMapper objetoMapper, ItemMapper itemMapper) {
 
         this.objetoItemRepository = objetoItemRepository;
         this.objetoRepository = objetoRepository;
         this.itemRepository = itemRepository;
+        this.usuarioRepository = usuarioRepository;
         this.objetoItemMapper = objetoItemMapper;
         this.objetoMapper = objetoMapper;
         this.itemMapper = itemMapper;
-        this.usuarioRepository = usuarioRepository;
 
     }
 

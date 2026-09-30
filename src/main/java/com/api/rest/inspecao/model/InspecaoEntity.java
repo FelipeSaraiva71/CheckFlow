@@ -26,6 +26,9 @@ public class InspecaoEntity {
     @JoinColumn (nullable = false, name = "objeto_id")
     private ObjetoEntity objeto;
 
+    @Enumerated(EnumType.STRING)
+    private InspecaoStatusEnum status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "criado_por")
     private UsuarioEntity criadoPor;

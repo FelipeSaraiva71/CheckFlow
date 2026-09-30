@@ -21,7 +21,6 @@ public class InspecaoItemDtoCreate {
     private Long itemId;
 
     @NotNull
-    @Size(max = 10)
     private StatusItemEnum status;
 
     @Size(max = 200)
