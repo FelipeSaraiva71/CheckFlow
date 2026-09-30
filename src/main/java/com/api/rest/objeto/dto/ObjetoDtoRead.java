@@ -10,6 +10,8 @@ import lombok.Getter;
 @Builder
 public class ObjetoDtoRead {
 
+    private Long id;
+
     private String nome;
 
     private String identificacao;

@@ -15,10 +15,8 @@ import lombok.*;
 
 public class InspecaoDtoUpdate {
 
-    @NotBlank
+    @NotNull
     private Long objetoId;
 
-    @NotNull
-    private InspecaoStatusEnum status;
 
 }

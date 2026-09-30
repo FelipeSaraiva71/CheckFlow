@@ -15,6 +15,8 @@ import java.util.List;
 @Builder
 public class ObjetoItemDtoRead {
 
+    private Long id;
+
     private ObjetoDtoRead objeto;
 
     private List<ItemDtoRead> item;

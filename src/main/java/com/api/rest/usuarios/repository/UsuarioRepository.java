@@ -14,7 +14,7 @@ import java.util.List;
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
 
     boolean existsByEmail(String email);
-    @EntityGraph(attributePaths = "tenant")
+    @EntityGraph(attributePaths = "responsavel")
     Page<UsuarioEntity> findByTipo(UsuarioTipoEnum tipo, Pageable pageable);
     boolean existsByEmailAndIdNot(String email, Long id);
 }

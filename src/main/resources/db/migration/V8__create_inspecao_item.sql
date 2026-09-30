@@ -34,7 +34,7 @@ CREATE TABLE inspecoes_itens
         FOREIGN KEY (criado_por)
             REFERENCES usuarios (id),
 
-    CONSTRAINT fk_inspecao_atualizado_por
+    CONSTRAINT fk_inspecao_item_atualizado_por
         FOREIGN KEY (atualizado_por)
             REFERENCES usuarios (id),
 

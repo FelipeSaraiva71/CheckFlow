@@ -17,7 +17,6 @@ import com.api.rest.usuarios.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -44,12 +43,13 @@ public class InspecaoService {
     }
 
 
+    @Transactional
     public InspecaoDtoRead create(InspecaoDtoCreate inspecaoDtoCreate) {
 
         ObjetoEntity objetoEntity = objetoRepository.findById(inspecaoDtoCreate.getObjetoId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Objeto não encontrado!"));
 
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(1L)
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(2L)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario não encontrado!"));
 
         InspecaoEntity inspecaoEntity = inspecaoMapper.inspecaoCreateEntity(inspecaoDtoCreate);
@@ -65,7 +65,8 @@ public class InspecaoService {
 
     }
 
-    public Page<InspecaoDtoRead> listAll(Pageable pageable){
+    @Transactional
+    public Page<InspecaoDtoRead> listAll(Pageable pageable) {
         return inspecaoRepository.findAll(pageable).map(inspecaoMapper::inspecaoReadEntity);
     }
 
@@ -73,10 +74,13 @@ public class InspecaoService {
     public InspecaoDtoRead patchExecutado(Long id) {
 
         InspecaoEntity inspecaoEntity = inspecaoRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Inspeção não está disponível!"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Inspeção não encontrada!"));
+
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(2L)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario não encontrado!"));
 
         if (inspecaoEntity.getStatus() != InspecaoStatusEnum.EM_ANDAMENTO) {
-            throw new ConflitoException("A inspeção não está em andamento!");
+            throw new ConflitoException("A inspeção não está disponivel para está ação!");
         }
 
         long totalItens = objetoItemRepository.countByObjeto(inspecaoEntity.getObjeto());
@@ -84,14 +88,12 @@ public class InspecaoService {
         long totalItensRespondidos = inspecaoItemRepository.countByInspecao(inspecaoEntity);
 
         if (totalItens != totalItensRespondidos) {
-            throw new ConflitoException("Verifique todos itens antes de finalizar!");
+            throw new ConflitoException("Verifique todos os itens antes de finalizar!");
         }
 
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(1L)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario não encontrado!"));
 
 
-        inspecaoEntity.setStatus(InspecaoStatusEnum.EXECUTADO);
+        inspecaoEntity.setStatus(InspecaoStatusEnum.FINALIZADO);
         inspecaoEntity.setAtualizadoPor(usuarioEntity);
         inspecaoEntity.setAtualizadoEm(LocalDateTime.now());
         InspecaoEntity salvo = inspecaoRepository.save(inspecaoEntity);
@@ -107,7 +109,7 @@ public class InspecaoService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Inspeção não está disponível!"));
 
         if (inspecaoEntity.getStatus() != InspecaoStatusEnum.EM_ANDAMENTO) {
-            throw new ConflitoException("A inspeção não está em andamento!");
+            throw new ConflitoException("A inspeção não está disponivel para está ação!");
         }
 
         long totalItens = objetoItemRepository.countByObjeto(inspecaoEntity.getObjeto());
@@ -118,11 +120,34 @@ public class InspecaoService {
             throw new ConflitoException("Todos itens foram vistoriados, favor finalizar!");
         }
 
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(1L)
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(2L)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario não encontrado!"));
 
 
         inspecaoEntity.setStatus(InspecaoStatusEnum.PENDENTE);
+        inspecaoEntity.setAtualizadoPor(usuarioEntity);
+        inspecaoEntity.setAtualizadoEm(LocalDateTime.now());
+        InspecaoEntity salvo = inspecaoRepository.save(inspecaoEntity);
+
+        return inspecaoMapper.inspecaoReadEntity(salvo);
+
+    }
+
+    @Transactional
+    public InspecaoDtoRead patchAndamento(Long id) {
+
+        InspecaoEntity inspecaoEntity = inspecaoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Inspeção não encontrada!"));
+
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(2L)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuario não encontrado!"));
+
+        if (inspecaoEntity.getStatus() != InspecaoStatusEnum.PENDENTE) {
+            throw new ConflitoException("A inspeção não está disponivel para está ação!");
+        }
+
+
+        inspecaoEntity.setStatus(InspecaoStatusEnum.EM_ANDAMENTO);
         inspecaoEntity.setAtualizadoPor(usuarioEntity);
         inspecaoEntity.setAtualizadoEm(LocalDateTime.now());
         InspecaoEntity salvo = inspecaoRepository.save(inspecaoEntity);

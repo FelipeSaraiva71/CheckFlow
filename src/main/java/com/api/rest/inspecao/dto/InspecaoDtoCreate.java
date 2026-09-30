@@ -13,10 +13,7 @@ import lombok.*;
 @Builder
 public class InspecaoDtoCreate {
 
-    @NotBlank
-    private Long objetoId;
-
     @NotNull
-    private InspecaoStatusEnum status;
+    private Long objetoId;
 
 }

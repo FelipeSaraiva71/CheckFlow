@@ -33,15 +33,21 @@ public class InspecaoController {
         return ResponseEntity.ok(inspecaoService.listAll(pageable));
     }
 
-    @PatchMapping("/{id}/executado")
+    @PatchMapping("/{id}/finalizado")
     public ResponseEntity<InspecaoDtoRead> patchExecutado(@PathVariable Long id){
         InspecaoDtoRead inspecaoDtoRead = inspecaoService.patchExecutado(id);
         return ResponseEntity.ok(inspecaoDtoRead);
     }
-    
+
     @PatchMapping("/{id}/pendente")
     public ResponseEntity<InspecaoDtoRead> patchPendente(@PathVariable Long id){
         InspecaoDtoRead inspecaoDtoRead = inspecaoService.patchPendente(id);
+        return ResponseEntity.ok(inspecaoDtoRead);
+    }
+
+    @PatchMapping("/{id}/andamento")
+    public ResponseEntity<InspecaoDtoRead> patchAndamento(@PathVariable Long id){
+        InspecaoDtoRead inspecaoDtoRead = inspecaoService.patchAndamento(id);
         return ResponseEntity.ok(inspecaoDtoRead);
     }
 }
