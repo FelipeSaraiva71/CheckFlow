@@ -1,6 +1,8 @@
 package com.api.rest.inspecoesitens.dto;
 
+import com.api.rest.inspecao.dto.InspecaoDtoRead;
 import com.api.rest.inspecoesitens.model.StatusItemEnum;
+import com.api.rest.itens.dto.ItemDtoRead;
 import com.api.rest.itens.model.ItemEntity;
 import com.api.rest.objeto.model.ObjetoEntity;
 import lombok.AllArgsConstructor;
@@ -14,11 +16,7 @@ import lombok.Getter;
 @Builder
 public class InspecaoItemDtoRead {
 
-    private Long id;
-
-    private ObjetoEntity inspecaoId;
-
-    private ItemEntity itemId;
+    private ItemDtoRead item;
 
     private StatusItemEnum status;
 

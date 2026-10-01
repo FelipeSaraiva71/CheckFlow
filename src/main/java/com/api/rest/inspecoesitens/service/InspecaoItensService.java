@@ -2,9 +2,11 @@ package com.api.rest.inspecoesitens.service;
 
 import com.api.rest.exception.ConflitoException;
 import com.api.rest.exception.RecursoNaoEncontradoException;
+import com.api.rest.inspecao.mapper.InspecaoMapper;
 import com.api.rest.inspecao.model.InspecaoEntity;
 import com.api.rest.inspecao.model.InspecaoStatusEnum;
 import com.api.rest.inspecao.repository.InspecaoRepository;
+import com.api.rest.inspecoesitens.dto.InspecaoComItensDtoRead;
 import com.api.rest.inspecoesitens.dto.InspecaoItemDtoCreate;
 import com.api.rest.inspecoesitens.dto.InspecaoItemDtoRead;
 import com.api.rest.inspecoesitens.mapper.InspecaoItemMapper;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class InspecaoItensService {
@@ -32,8 +35,9 @@ public class InspecaoItensService {
     private final ItemRepository itemRepository;
     private final ObjetoItemRepository objetoItemRepository;
     private final InspecaoItemMapper inspecaoItemMapper;
+    private final InspecaoMapper inspecaoMapper;
 
-    public InspecaoItensService(InspecaoItemRepository inspecaoItemRepository, InspecaoRepository inspecaoRepository, UsuarioRepository usuarioRepository, ItemRepository itemRepository, ObjetoItemRepository objetoItemRepository, InspecaoItemMapper inspecaoItemMapper) {
+    public InspecaoItensService(InspecaoItemRepository inspecaoItemRepository, InspecaoRepository inspecaoRepository, UsuarioRepository usuarioRepository, ItemRepository itemRepository, ObjetoItemRepository objetoItemRepository, InspecaoItemMapper inspecaoItemMapper, InspecaoMapper inspecaoMapper) {
 
         this.inspecaoItemRepository = inspecaoItemRepository;
         this.inspecaoRepository = inspecaoRepository;
@@ -41,6 +45,7 @@ public class InspecaoItensService {
         this.itemRepository = itemRepository;
         this.objetoItemRepository = objetoItemRepository;
         this.inspecaoItemMapper = inspecaoItemMapper;
+        this.inspecaoMapper = inspecaoMapper;
 
     }
 
@@ -68,9 +73,20 @@ public class InspecaoItensService {
         }
 
         if (inspecaoItemDtoCreate.getStatus() == StatusItemEnum.NOK
-        && (inspecaoItemDtoCreate.getObservacao() == null
-        || inspecaoItemDtoCreate.getObservacao().isBlank())){
+                && (inspecaoItemDtoCreate.getObservacao() == null
+                || inspecaoItemDtoCreate.getObservacao().isBlank())) {
             throw new ConflitoException("A observação é obrigatória quando o item não está OK!");
+        }
+
+
+        if (inspecaoItemDtoCreate.getStatus() == StatusItemEnum.OK
+                && (inspecaoItemDtoCreate.getObservacao() != null
+                && !inspecaoItemDtoCreate.getObservacao().isBlank())) {
+            throw new ConflitoException("A observação não deve ser informada quando o item está OK!");
+        }
+
+        if (inspecaoItemDtoCreate.getStatus() == StatusItemEnum.OK) {
+            inspecaoItemDtoCreate.setObservacao(null);
         }
 
         UsuarioEntity usuarioEntity = usuarioRepository.findById(1L).orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado!"));
@@ -90,21 +106,55 @@ public class InspecaoItensService {
         return inspecaoItemMapper.inspecaoItemReadEntity(salvo);
     }
 
-    public Page<InspecaoItemDtoRead> listByInspecao(Long id, Pageable pageable){
-        return inspecaoItemRepository.findByInspecaoId(id, pageable).map(inspecaoItemMapper::inspecaoItemReadEntity);
+    @Transactional
+    public InspecaoComItensDtoRead listByInspecao(Long id) {
+        InspecaoEntity inspecao = inspecaoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Inspeção não encontrada!"));
+
+        List<InspecaoItemDtoRead> itens = inspecaoItemRepository.findByInspecaoId(id)
+                .stream()
+                .map(inspecaoItemMapper::inspecaoItemReadEntity)
+                .toList();
+
+        return InspecaoComItensDtoRead.builder()
+                .inspecao(inspecaoMapper.inspecaoReadEntity(inspecao))
+                .item(itens)
+                .build();
     }
 
+    @Transactional
+    public Page<InspecaoComItensDtoRead> listAllUsuario(Long id, Pageable pageable) {
 
+        return inspecaoRepository.findByCriadoPorId(id, pageable)
+                .map(inspecao -> {
 
-    public Page<InspecaoItemDtoRead> listAllUsuario(Long id, Pageable pageable){
-        return inspecaoItemRepository.findByCriadoPorId(id, pageable).map(inspecaoItemMapper::inspecaoItemReadEntity);
+                    List<InspecaoItemDtoRead> itens =
+                            inspecaoItemRepository.findByInspecaoId(inspecao.getId())
+                                    .stream()
+                                    .map(inspecaoItemMapper::inspecaoItemReadEntity)
+                                    .toList();
+
+                    return InspecaoComItensDtoRead.builder()
+                            .inspecao(inspecaoMapper.inspecaoReadEntity(inspecao))
+                            .item(itens)
+                            .build();
+                });
     }
 
+    @Transactional
+    public Page<InspecaoComItensDtoRead> listAll(Pageable pageable) {
+        return inspecaoRepository.findAll(pageable).map(inspecao -> {
+                    List<InspecaoItemDtoRead> itens = inspecaoItemRepository.findByInspecaoId(inspecao.getId())
+                                    .stream()
+                                    .map(inspecaoItemMapper::inspecaoItemReadEntity)
+                                    .toList();
 
-    public Page<InspecaoItemDtoRead> listAll(Pageable pageable){
-        return inspecaoItemRepository.findAll(pageable).map(inspecaoItemMapper::inspecaoItemReadEntity);
+                    return InspecaoComItensDtoRead.builder()
+                            .inspecao(inspecaoMapper.inspecaoReadEntity(inspecao))
+                            .item(itens)
+                            .build();
+                });
     }
-
 
 
 }

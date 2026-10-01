@@ -9,11 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface InspecaoItemRepository extends JpaRepository<InspecaoItemEntity, Long> {
     Optional<InspecaoItemEntity> findByInspecaoAndItem(InspecaoEntity inspecao, ItemEntity item);
     long countByInspecao(InspecaoEntity inspecao);
-    Page<InspecaoItemEntity> findByInspecaoId(Long id, Pageable pageable);
+    List<InspecaoItemEntity> findByInspecaoId(Long id);
     Page<InspecaoItemEntity> findByCriadoPorId(Long id, Pageable pageable);
 }

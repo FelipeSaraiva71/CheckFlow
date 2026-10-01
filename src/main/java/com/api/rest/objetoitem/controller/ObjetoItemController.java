@@ -25,7 +25,7 @@ public class ObjetoItemController {
 
 
     @PostMapping
-    public ResponseEntity<ObjetoItemDtoRead> createObjetoItem(@Valid @RequestBody ObjetoItemDtoCreate objetoItemDtoCreate) {
+    public ResponseEntity<ObjetoItemDtoRead> create(@Valid @RequestBody ObjetoItemDtoCreate objetoItemDtoCreate) {
         ObjetoItemDtoRead objetoItemSalvo = objetoItemService.create(objetoItemDtoCreate);
         return ResponseEntity.status(HttpStatus.CREATED).body(objetoItemSalvo);
 

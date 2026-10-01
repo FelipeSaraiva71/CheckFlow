@@ -5,7 +5,6 @@ import com.api.rest.inspecao.dto.InspecaoDtoRead;
 import com.api.rest.inspecao.dto.InspecaoDtoUpdate;
 import com.api.rest.inspecao.model.InspecaoEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface InspecaoMapper {
