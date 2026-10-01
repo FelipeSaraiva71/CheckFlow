@@ -9,8 +9,8 @@ VALUES
         '$2a$10$.ZGDGg6KzZYVUpo5BUgbVuZ26ep9FSrAy0AGapWjqCgkJWb68kMXG',
      'ATIVO',
         'DEV',
-     NULL,
-     NULL,
+     1,
+     1,
      CURRENT_TIMESTAMP,
      NULL,
      NULL

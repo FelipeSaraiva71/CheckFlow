@@ -17,6 +17,8 @@ import com.api.rest.objetoitem.repository.ObjetoItemRepository;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import com.api.rest.usuarios.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -88,6 +90,20 @@ public class InspecaoItensService {
         return inspecaoItemMapper.inspecaoItemReadEntity(salvo);
     }
 
+    public Page<InspecaoItemDtoRead> listByInspecao(Long id, Pageable pageable){
+        return inspecaoItemRepository.findByInspecaoId(id, pageable).map(inspecaoItemMapper::inspecaoItemReadEntity);
+    }
+
+
+
+    public Page<InspecaoItemDtoRead> listAllUsuario(Long id, Pageable pageable){
+        return inspecaoItemRepository.findByCriadoPorId(id, pageable).map(inspecaoItemMapper::inspecaoItemReadEntity);
+    }
+
+
+    public Page<InspecaoItemDtoRead> listAll(Pageable pageable){
+        return inspecaoItemRepository.findAll(pageable).map(inspecaoItemMapper::inspecaoItemReadEntity);
+    }
 
 
 

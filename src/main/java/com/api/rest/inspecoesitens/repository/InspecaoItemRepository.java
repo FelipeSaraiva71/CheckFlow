@@ -5,6 +5,8 @@ import com.api.rest.inspecoesitens.model.InspecaoItemEntity;
 import com.api.rest.itens.model.ItemEntity;
 import com.api.rest.objeto.model.ObjetoEntity;
 import com.api.rest.objetoitem.model.ObjetoItemEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -12,5 +14,6 @@ import java.util.Optional;
 public interface InspecaoItemRepository extends JpaRepository<InspecaoItemEntity, Long> {
     Optional<InspecaoItemEntity> findByInspecaoAndItem(InspecaoEntity inspecao, ItemEntity item);
     long countByInspecao(InspecaoEntity inspecao);
-
+    Page<InspecaoItemEntity> findByInspecaoId(Long id, Pageable pageable);
+    Page<InspecaoItemEntity> findByCriadoPorId(Long id, Pageable pageable);
 }
