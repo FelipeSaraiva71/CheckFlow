@@ -1,10 +1,7 @@
 package com.api.rest.usuarios.mapper;
 
 
-import com.api.rest.usuarios.dto.UsuarioAdmDtoCreate;
-import com.api.rest.usuarios.dto.UsuarioAdmDtoUpdate;
-import com.api.rest.usuarios.dto.UsuarioDtoRead;
-import com.api.rest.usuarios.dto.UsuarioDtoUpdate;
+import com.api.rest.usuarios.dto.*;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,7 +13,7 @@ public interface UsuarioMapper {
 
     UsuarioEntity updateUsuarioAdmEntity(UsuarioAdmDtoUpdate usuarioAdmDtoUpdate);
 
-    UsuarioEntity createUsuarioEntity(UsuarioAdmDtoCreate usuarioDtoCreate);
+    UsuarioEntity createUsuarioEntity(UsuarioDtoCreate usuarioDtoCreate);
 
 
     UsuarioEntity updateUsuarioEntity(UsuarioDtoUpdate usuarioDtoUpdate);

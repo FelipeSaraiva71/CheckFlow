@@ -144,16 +144,16 @@ public class InspecaoItensService {
     @Transactional
     public Page<InspecaoComItensDtoRead> listAll(Pageable pageable) {
         return inspecaoRepository.findAll(pageable).map(inspecao -> {
-                    List<InspecaoItemDtoRead> itens = inspecaoItemRepository.findByInspecaoId(inspecao.getId())
-                                    .stream()
-                                    .map(inspecaoItemMapper::inspecaoItemReadEntity)
-                                    .toList();
+            List<InspecaoItemDtoRead> itens = inspecaoItemRepository.findByInspecaoId(inspecao.getId())
+                    .stream()
+                    .map(inspecaoItemMapper::inspecaoItemReadEntity)
+                    .toList();
 
-                    return InspecaoComItensDtoRead.builder()
-                            .inspecao(inspecaoMapper.inspecaoReadEntity(inspecao))
-                            .item(itens)
-                            .build();
-                });
+            return InspecaoComItensDtoRead.builder()
+                    .inspecao(inspecaoMapper.inspecaoReadEntity(inspecao))
+                    .item(itens)
+                    .build();
+        });
     }
 
 
