@@ -12,11 +12,14 @@ import com.api.rest.usuarios.model.StatusUsuarioEnum;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import com.api.rest.usuarios.model.UsuarioTipoEnum;
 import com.api.rest.usuarios.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Service
 public class UsuarioAdmService {
 
 
@@ -47,6 +50,7 @@ public class UsuarioAdmService {
                     .orElseThrow(() -> new RecursoNaoEncontradoException("Responsavel não encontrado!"));
 
             UsuarioEntity entity = usuarioMapper.createUsuarioAdmEntity(usuarioAdmDtoCreate);
+
             entity.setTipo(UsuarioTipoEnum.ADM);
             entity.setStatus(StatusUsuarioEnum.ATIVO);
             entity.setResponsavel(tenant);
@@ -58,37 +62,30 @@ public class UsuarioAdmService {
 
         }
 
-        public Page<UsuarioDtoRead> findByAllAdm(Pageable pageable) {
-            return usuarioRepository.findByTipo(UsuarioTipoEnum.ADM, pageable).map(usuarioMapper::readUsuarioDto);
-        }
+    public Page<UsuarioDtoRead> findByAllAdm(Pageable pageable) {
+        return usuarioRepository.findByTipo(UsuarioTipoEnum.ADM, pageable).map(usuarioMapper::readUsuarioDto);
+    }
 
+    @Transactional
         public UsuarioDtoRead updateAdm(Long id, UsuarioAdmDtoUpdate usuarioAdmDtoUpdate) {
-
             UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Usuario não encontrado!"));
-
 
             if (usuarioRepository.existsByEmailAndIdNot(usuarioAdmDtoUpdate.getEmail(), id)) {
                 throw new ConflitoException("E-mail já existe!");
             }
 
-            usuarioEntity.setNome(usuarioAdmDtoUpdate.getNome());
-
-            usuarioEntity.setSobrenome(usuarioAdmDtoUpdate.getSobrenome());
-
-            usuarioEntity.setTelefone(usuarioAdmDtoUpdate.getTelefone());
-
-            usuarioEntity.setEmail(usuarioAdmDtoUpdate.getEmail());
-
-            usuarioEntity.setStatus(usuarioAdmDtoUpdate.getStatus());
+            usuarioMapper.updateUsuarioAdmEntity(usuarioAdmDtoUpdate, usuarioEntity);
 
             TenantEntity tenant = tenantRepository.findById(usuarioAdmDtoUpdate.getResponsavelId())
                     .orElseThrow(() -> new RecursoNaoEncontradoException("Responsavel não encontrado!"));
+
             usuarioEntity.setResponsavel(tenant);
+            usuarioEntity.setAtualizadoPor(usuarioEntity);
+            usuarioEntity.setAtualizadoEm(LocalDateTime.now());
 
+            UsuarioEntity usuarioSalvo = usuarioRepository.save(usuarioEntity);
 
-            UsuarioDtoRead usuarioDtoRead = usuarioMapper.readUsuarioDto(usuarioRepository.save(usuarioEntity));
-
-            return usuarioDtoRead;
+            return usuarioMapper.readUsuarioDto(usuarioSalvo);
 
         }
 }

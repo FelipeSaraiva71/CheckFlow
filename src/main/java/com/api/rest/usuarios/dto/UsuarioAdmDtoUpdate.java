@@ -31,13 +31,6 @@ public class UsuarioAdmDtoUpdate {
     @Size(min = 1, max = 150)
     private String email;
 
-    @NotBlank
-    @Size(min = 1, max = 60)
-    private String password;
-
-    @NotNull
-    private StatusUsuarioEnum status;
-
     @NotNull
     private Long responsavelId;
 }

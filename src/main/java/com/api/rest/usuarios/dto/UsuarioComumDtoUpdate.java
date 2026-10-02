@@ -1,5 +1,6 @@
 package com.api.rest.usuarios.dto;
 
+import com.api.rest.usuarios.model.StatusUsuarioEnum;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 
 @Builder
-public class UsuarioAdmDtoCreate {
+public class UsuarioComumDtoUpdate {
 
     @NotBlank
     @Size(min = 1, max = 20)
@@ -26,11 +27,5 @@ public class UsuarioAdmDtoCreate {
     @Size(min = 1, max = 150)
     private String email;
 
-    @NotBlank
-    @Size(min = 4, max = 60)
-    private String password;
-
-    @NotNull
-    private Long responsavelId;
 
 }

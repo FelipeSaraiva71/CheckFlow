@@ -1,9 +1,9 @@
 package com.api.rest.usuarios.controller;
 
 
-import com.api.rest.usuarios.dto.UsuarioDtoCreate;
+import com.api.rest.usuarios.dto.UsuarioComumDtoCreate;
+import com.api.rest.usuarios.dto.UsuarioComumDtoUpdate;
 import com.api.rest.usuarios.dto.UsuarioDtoRead;
-import com.api.rest.usuarios.dto.UsuarioDtoUpdate;
 import com.api.rest.usuarios.service.UsuarioComumService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -26,8 +26,8 @@ public class UsuarioComumController {
 
 
     @PostMapping
-    public ResponseEntity<UsuarioDtoRead> saveAdm(@Valid @RequestBody UsuarioDtoCreate usuarioDtoCreate) {
-        UsuarioDtoRead usuarioSalvo = usuarioComumService.saveComum(usuarioDtoCreate);
+    public ResponseEntity<UsuarioDtoRead> saveAdm(@Valid @RequestBody UsuarioComumDtoCreate usuarioComumDtoCreate) {
+        UsuarioDtoRead usuarioSalvo = usuarioComumService.saveComum(usuarioComumDtoCreate);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
     }
 
@@ -37,8 +37,8 @@ public class UsuarioComumController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDtoRead> update(@PathVariable Long id, @Valid @RequestBody UsuarioDtoUpdate usuarioDtoUpdate) {
-        UsuarioDtoRead usuarioAtualizado = usuarioComumService.updateComum(id, usuarioDtoUpdate);
+    public ResponseEntity<UsuarioDtoRead> update(@PathVariable Long id, @Valid @RequestBody UsuarioComumDtoUpdate usuarioComumDtoUpdate) {
+        UsuarioDtoRead usuarioAtualizado = usuarioComumService.updateComum(id, usuarioComumDtoUpdate);
         return ResponseEntity.ok(usuarioAtualizado);
     }
 

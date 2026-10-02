@@ -10,6 +10,7 @@ import com.api.rest.usuarios.model.StatusUsuarioEnum;
 import com.api.rest.usuarios.model.UsuarioEntity;
 import com.api.rest.usuarios.model.UsuarioTipoEnum;
 import com.api.rest.usuarios.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,9 @@ public class UsuarioComumService {
         this.usuarioMapper = usuarioMapper;
     }
 
-    public UsuarioDtoRead saveComum(UsuarioDtoCreate usuarioDtoCreate) {
+    public UsuarioDtoRead saveComum(UsuarioComumDtoCreate usuarioComumDtoCreate) {
 
-        if (usuarioRepository.existsByEmail(usuarioDtoCreate.getEmail())) {
+        if (usuarioRepository.existsByEmail(usuarioComumDtoCreate.getEmail())) {
             throw new ConflitoException("E-mail já existe!");
         }
 
@@ -44,7 +45,8 @@ public class UsuarioComumService {
         TenantEntity tenant = tenantRepository.findById(2L)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Responsavel não encontrado!"));
 
-        UsuarioEntity entity = usuarioMapper.createUsuarioEntity(usuarioDtoCreate);
+        UsuarioEntity entity = usuarioMapper.createUsuarioEntity(usuarioComumDtoCreate);
+
         entity.setTipo(UsuarioTipoEnum.COMUM);
         entity.setStatus(StatusUsuarioEnum.ATIVO);
         entity.setResponsavel(tenant);
@@ -60,33 +62,22 @@ public class UsuarioComumService {
         return usuarioRepository.findByTipo(UsuarioTipoEnum.COMUM, pageable).map(usuarioMapper::readUsuarioDto);
     }
 
-    public UsuarioDtoRead updateComum(Long id, UsuarioDtoUpdate usuarioDtoUpdate) {
+    @Transactional
+    public UsuarioDtoRead updateComum(Long id, UsuarioComumDtoUpdate usuarioComumDtoUpdate) {
 
         UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Usuario não encontrado!"));
 
-
-        if (usuarioRepository.existsByEmailAndIdNot(usuarioDtoUpdate.getEmail(), id)) {
+        if (usuarioRepository.existsByEmailAndIdNot(usuarioComumDtoUpdate.getEmail(), id)) {
             throw new ConflitoException("E-mail já existe!");
         }
 
-        usuarioEntity.setNome(usuarioDtoUpdate.getNome());
+        usuarioMapper.updateUsuarioEntity(usuarioComumDtoUpdate, usuarioEntity);
 
-        usuarioEntity.setSobrenome(usuarioDtoUpdate.getSobrenome());
+        usuarioEntity.setAtualizadoPor(usuarioEntity);
+        usuarioEntity.setAtualizadoEm(LocalDateTime.now());
 
-        usuarioEntity.setTelefone(usuarioDtoUpdate.getTelefone());
+        UsuarioEntity usuarioSalvo = usuarioRepository.save(usuarioEntity);
 
-        usuarioEntity.setEmail(usuarioDtoUpdate.getEmail());
-
-        usuarioEntity.setStatus(usuarioDtoUpdate.getStatus());
-
-        TenantEntity tenant = tenantRepository.findById(2L)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Responsavel não encontrado!"));
-        usuarioEntity.setResponsavel(tenant);
-
-
-        UsuarioDtoRead usuarioDtoRead = usuarioMapper.readUsuarioDto(usuarioRepository.save(usuarioEntity));
-
-        return usuarioDtoRead;
-
+        return usuarioMapper.readUsuarioDto(usuarioSalvo);
     }
 }
